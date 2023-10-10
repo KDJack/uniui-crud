@@ -1,12 +1,12 @@
 <template>
-  <view v-if="isInit" class="uniui-curd-input" :class="{ 'uniui-curd-textarea': type === 'textarea' }">
+  <view v-if="isInit" class="uniui-crud-input" :class="{ 'uniui-crud-textarea': type === 'textarea' }">
     <uniui-crud-easyinput @change="handelChange" :type="type || ''" v-model="currentValue" v-bind="attrs" :placeholder="attrs.placeholder" :styles="{ background: '#666666' }" />
     <text v-if="desc.suffixText" class="suffix-text">{{ desc.suffixText }}</text>
   </view>
 </template>
 <script lang="ts" setup>
 import { ref, watch, useAttrs, onBeforeMount, inject } from 'vue'
-import { getAttrs } from '../uniui-curd-form/mixins'
+import { getAttrs } from '../uniui-crud-form/mixins'
 
 const defaultConf = inject('defaultConf') as ICRUDConfig
 
@@ -65,7 +65,7 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-.uniui-curd-input {
+.uniui-crud-input {
   width: 100%;
   display: flex;
   align-items: center;
@@ -76,7 +76,7 @@ watch(
     font-weight: 500;
   }
 }
-.uniui-curd-textarea {
+.uniui-crud-textarea {
   .uni-easyinput {
     .is-textarea {
       background-color: #f8f8f8 !important;

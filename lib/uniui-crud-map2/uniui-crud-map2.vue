@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-map">
+  <view class="uniui-crud-map">
     <view class="map-addr-text" @click.stop="handelOpenMap">
       <image class="addr-point" src="../../static/images/icon/location.png"></image>
       <template v-if="currentValue?.address">
@@ -207,7 +207,7 @@ onMounted(() => {
 defineExpose({ show })
 </script>
 <style lang="scss" scoped>
-.uniui-curd-map {
+.uniui-crud-map {
   width: 100%;
   padding: 10px 0;
   min-height: 104rpx;

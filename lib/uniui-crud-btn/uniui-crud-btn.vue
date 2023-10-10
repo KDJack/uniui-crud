@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-btn">
+  <view class="uniui-crud-btn">
     <view class="btn-main" :class="{ plain: desc.plain }" :style="{ filter: `grayscale(${localLoading ? 80 : 0}%)`, height: desc.height || '48px' }" @click.stop="handelBtnClick">
       <uni-icons v-if="localLoading" class="run-rotating" type="loop" :color="desc.plain ? '#007b57' : '#ffffff'" :size="20"></uni-icons>
       <slot name="default">
@@ -102,7 +102,7 @@ function handelConfirm() {
 }
 </script>
 <style lang="scss" scoped>
-.uniui-curd-btn {
+.uniui-crud-btn {
   flex: 1;
   width: 100%;
   display: flex;

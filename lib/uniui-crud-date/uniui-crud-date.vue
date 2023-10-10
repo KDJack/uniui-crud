@@ -1,12 +1,12 @@
 <template>
-  <view class="uniui-curd-data" :class="{ active: currentValue }">
+  <view class="uniui-crud-data" :class="{ active: currentValue }">
     <uni-datetime-picker :type="type || 'date'" v-model="currentValue" v-bind="attrs" @change="handelChange" />
     <uni-icons type="bottom" size="20" style="margin-left: 4px"></uni-icons>
   </view>
 </template>
 <script lang="ts" setup>
 import { ref, watch, useAttrs, onBeforeMount } from 'vue'
-import { getAttrs } from '../uniui-curd-form/mixins'
+import { getAttrs } from '../uniui-crud-form/mixins'
 
 const props = defineProps<{
   modelValue?: string | null
@@ -59,7 +59,7 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-.uniui-curd-data {
+.uniui-crud-data {
   width: 100%;
   display: flex;
   align-items: center;
@@ -71,7 +71,7 @@ watch(
     font-weight: 500;
   }
 }
-.uniui-curd-textarea {
+.uniui-crud-textarea {
   .uni-easyinput {
     .is-textarea {
       background-color: #f8f8f8 !important;

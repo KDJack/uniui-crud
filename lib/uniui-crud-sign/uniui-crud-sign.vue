@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-sign">
+  <view class="uniui-crud-sign">
     <view class="sign-data-panel" @click.stop="show">
       <image v-if="currentValue" style="width: 100%; height: 100%" mode="aspectFit" :src="currentValue" />
       <view v-else class="text">点击签字</view>
@@ -9,8 +9,8 @@
       <view class="sign-content">
         <canvas class="mycanvas" canvas-id="mycanvas" disable-scroll="true" style="width: 100%; height: 70vw" @touchstart="handelTouchstart" @touchmove="handelTouchmove" @touchend="handelTouchend" />
         <view class="content_btn">
-          <uniui-curd-btn :desc="{ label: '清空', plain: true, on: { click: clear } }"></uniui-curd-btn>
-          <uniui-curd-btn :desc="{ label: '确定', on: { click: upload } }"></uniui-curd-btn>
+          <uniui-crud-btn :desc="{ label: '清空', plain: true, on: { click: clear } }"></uniui-crud-btn>
+          <uniui-crud-btn :desc="{ label: '确定', on: { click: upload } }"></uniui-crud-btn>
         </view>
       </view>
     </uni-popup>
@@ -171,7 +171,7 @@ onMounted(() => {
 defineExpose({ show })
 </script>
 <style lang="scss" scoped>
-.uniui-curd-sign {
+.uniui-crud-sign {
   width: 100%;
   padding-bottom: 40rpx;
 

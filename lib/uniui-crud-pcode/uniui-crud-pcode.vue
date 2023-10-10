@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-pcode">
+  <view class="uniui-crud-pcode">
     <uni-easyinput @change="handelChange" :type="type || 'number'" v-model="currentValue" v-bind="attrs" :styles="{ background: '#666666' }" />
     <view class="send-btn" :class="{ disabled: littleTime > 0 }" @click.stop="handelSendClick">{{ showText }}</view>
   </view>
@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 /* eslint-disable */
 import { ref, watch, computed, useAttrs, onBeforeMount } from 'vue'
-import { getAttrs } from '../uniui-curd-form/mixins'
+import { getAttrs } from '../uniui-crud-form/mixins'
 
 const props = defineProps<{
   modelValue?: string | null
@@ -114,7 +114,7 @@ watch(
 /* eslint-enable */
 </script>
 <style lang="scss" scoped>
-.uniui-curd-pcode {
+.uniui-crud-pcode {
   width: 100%;
   display: flex;
   align-items: center;

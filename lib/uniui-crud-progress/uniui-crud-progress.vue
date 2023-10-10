@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-progress">
+  <view class="uniui-crud-progress">
     <view class="progress-line-panel" :style="{ height }">
       <view class="progress-line-bg" :style="{ backgroundColor: inactiveColor, height }" />
       <view class="progress-line" :style="{ backgroundColor: activeColor, height, width: parcent + '%' }">
@@ -102,7 +102,7 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.uniui-curd-progress {
+.uniui-crud-progress {
   width: 100%;
   display: flex;
   padding: 60rpx 20rpx;

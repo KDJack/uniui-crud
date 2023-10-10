@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-upload">
+  <view class="uniui-crud-upload">
     <uni-file-picker v-model="currentValue" v-bind="attrs" :imageStyles="imageStyles" @select="handelSelect">
       <template v-if="desc.isCamer">
         <view class="upload-bg-panel" />
@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch, useAttrs, computed, onBeforeMount } from 'vue'
-import { getAttrs } from '../uniui-curd-form/mixins'
+import { getAttrs } from '../uniui-crud-form/mixins'
 import { throttle } from 'lodash'
 
 const props = defineProps<{
@@ -154,7 +154,7 @@ watch(
 )
 </script>
 <style lang="scss" scoped>
-.uniui-curd-upload {
+.uniui-crud-upload {
   width: 100%;
   padding: 16rpx 0;
   display: flex;

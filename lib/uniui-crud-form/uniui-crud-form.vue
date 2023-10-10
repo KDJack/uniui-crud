@@ -1,5 +1,5 @@
 <template>
-  <view class="uni-ui-curd-form" :style="{ 'padding-top': isMT ? marginTopMain : '', ...formLayout }">
+  <view class="uni-ui-crud-form" :style="{ 'padding-top': isMT ? marginTopMain : '', ...formLayout }">
     <slot name="top" :formData="modelValue"></slot>
     <view :style="{ display: 'flex', justifyContent: isDialog ? 'center' : '' }">
       <uni-forms ref="refElPlusForm" :model="props.modelValue" @submit.prevent="handleSubmitForm" v-bind="computedFormAttrs">
@@ -9,7 +9,7 @@
               <view v-if="formItem.topTitle" class="title-line flex_ex justify_between align_center">
                 <view class="title">{{ formItem.topTitle }}</view>
               </view>
-              <view v-if="formItem._vif" class="curd-form-item" :style="{ paddingLeft: formItem.type === 'pcode' ? '10px' : '20px', paddingTop: formItem.type === 'sign' ? '20px' : '' }">
+              <view v-if="formItem._vif" class="crud-form-item" :style="{ paddingLeft: formItem.type === 'pcode' ? '10px' : '20px', paddingTop: formItem.type === 'sign' ? '20px' : '' }">
                 <template v-if="['upload', 'textarea', 'progress', 'slider', 'sign', 'pcode'].indexOf(formItem.type || '') >= 0">
                   <view class="uni-forms-item">
                     <view class="uni-forms-item__label forms-item-labe-line" v-if="formItem.type !== 'pcode' && showLabel && formItem.showLabel !== false">
@@ -18,60 +18,60 @@
                     </view>
                     <view class="form-item-main">
                       <template v-if="formItem.type === 'upload'">
-                        <uniui-curd-upload style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-upload style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                       <template v-else-if="formItem.type === 'textarea'">
-                        <uniui-curd-input style="min-width: 80px; width: 100%" type="textarea" autoHeight :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-input style="min-width: 80px; width: 100%" type="textarea" autoHeight :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                       <template v-else-if="formItem.type === 'progress'">
-                        <uniui-curd-progress style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-progress style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                       <template v-else-if="formItem.type === 'slider'">
-                        <uniui-curd-slider :formData="props.modelValue" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-slider :formData="props.modelValue" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                       <template v-else-if="formItem.type === 'sign'">
-                        <uniui-curd-sign style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-sign style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                       <template v-else-if="formItem.type === 'pcode'">
-                        <uniui-curd-pcode style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                        <uniui-crud-pcode style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                       </template>
                     </view>
                   </view>
                 </template>
                 <uni-forms-item v-else style="min-height: 40px" :label="showLabel && formItem.showLabel !== false ? formItem._label : null" v-bind="formItem._formItemAttr" :labelWidth="!(showLabel && formItem.showLabel !== false ? formItem._label : null) ? 0 : formItem._formItemAttr.labelWidth">
                   <template v-if="formItem.type === 'car'">
-                    <uniui-curd-car style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-car style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'select'">
-                    <uniui-curd-pciker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-pciker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'ratio'">
-                    <uniui-curd-checkbox :multiple="false" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-checkbox :multiple="false" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'checkbox'">
-                    <uniui-curd-checkbox :multiple="true" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-checkbox :multiple="true" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'date'">
-                    <uniui-curd-date style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-date style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'time'">
-                    <uniui-curd-time style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-time style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'datetime'">
-                    <uniui-curd-date style="min-width: 80px; width: 100%" type="datetime" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-date style="min-width: 80px; width: 100%" type="datetime" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'map'">
-                    <uniui-curd-map style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-map style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'map2'">
-                    <uniui-curd-map2 style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-map2 style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <template v-else-if="formItem.type === 'text'">
-                    <uniui-curd-text :type="formItem.type" style="min-width: 80px; width: 100%" :formData="props.modelValue" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" />
+                    <uniui-crud-text :type="formItem.type" style="min-width: 80px; width: 100%" :formData="props.modelValue" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" />
                     <!--										<view class="textField"> {{ props.modelValue[formItem.field || ''] }}<text class="unit">元</text></view>-->
                   </template>
                   <template v-else>
-                    <uniui-curd-input :type="formItem.type" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                    <uniui-crud-input :type="formItem.type" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
                   <!-- <component style="min-width: 80px; width: 100%" :is="formItem._type" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')"></component> -->
                   <!-- <view class="uni-ui-form-tip" v-if="formItem._tip" v-html="formItem._tip" /> -->
@@ -89,9 +89,9 @@
       <slot :data="props.modelValue" name="form-btn">
         <view v-if="btnList && btnList.length > 0" class="uni-list">
           <view class="uni-list-cell">
-            <view class="curd-form-item" style="display: flex" :style="btnRowStyle">
+            <view class="crud-form-item" style="display: flex" :style="btnRowStyle">
               <template v-for="(btn, index) of btnList" :key="index">
-                <uniui-curd-btn v-bind="btn"></uniui-curd-btn>
+                <uniui-crud-btn v-bind="btn"></uniui-crud-btn>
               </template>
             </view>
           </view>
@@ -812,7 +812,7 @@ defineExpose({ submit: handleSubmitForm, getData: getFormData, validate: validat
 /* eslint-enable */
 </script>
 <style lang="scss" scoped>
-.uni-ui-curd-form {
+.uni-ui-crud-form {
   width: 100%;
   overflow-x: hidden;
   .uni-list {
@@ -829,7 +829,7 @@ defineExpose({ submit: handleSubmitForm, getData: getFormData, validate: validat
         width: 100%;
         height: 16rpx;
       }
-      .curd-form-item {
+      .crud-form-item {
         background-color: #fff;
         flex: 1;
         box-sizing: border-box;

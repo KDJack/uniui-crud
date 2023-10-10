@@ -1,5 +1,5 @@
 <template>
-  <view class="uniui-curd-text" :style="desc.style">
+  <view class="uniui-crud-text" :style="desc.style">
     <view class="">
       {{ formatValue }}
     </view>
@@ -8,7 +8,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch, inject, onBeforeMount, useAttrs } from 'vue'
-import { getAttrs } from '../uniui-curd-form/mixins'
+import { getAttrs } from '../uniui-crud-form/mixins'
 
 const format = inject('format') as any
 
@@ -68,7 +68,7 @@ onBeforeMount(async () => {
 })
 </script>
 <style lang="scss" scoped>
-.uniui-curd-text {
+.uniui-crud-text {
   width: 100%;
   display: flex;
   align-items: center;
