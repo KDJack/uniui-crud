@@ -61,7 +61,6 @@ async function handelSendClick() {
   if (props.desc?.remote) {
     const postData = Object.assign({}, props.desc?.queryData, { [phoneKey.value]: phoneVal })
     let res = await props.desc?.remote(postData)
-    console.log('res', res)
     if (res) {
       // 开始倒计时
       littleTime.value = 60

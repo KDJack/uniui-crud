@@ -134,7 +134,7 @@ function upload() {
       },
       fail: (res) => {
         // eslint-disable-next-line no-console
-        console.log(res)
+        console.log('签名获取失败', res)
       }
     },
     instance
@@ -148,7 +148,7 @@ function upload() {
     },
     fail: (res: any) => {
       // eslint-disable-next-line no-console
-      console.log(res)
+      console.log('签名获取失败: ', res)
     }
   })
   // #endif

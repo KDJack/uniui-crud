@@ -321,8 +321,6 @@ const computedRules = computed(() => {
       }
     })
   }
-  console.log('tempRules', tempRules)
-
   return tempRules
 })
 
@@ -357,7 +355,6 @@ const attrMapToList = computed(() => {
       formLayoutRows.push(rowItemList)
     }
   }
-  console.log('attrMapToList', attrMapToList)
   return formLayoutRows
 })
 
@@ -710,7 +707,7 @@ const handleSubmitForm = async () => {
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.log('error: ', error)
+    console.log('表单校验失败: ', error)
   }
 }
 
@@ -760,7 +757,7 @@ const clear = () => {
 function handelValidateThis(field: string) {
   refElPlusForm.value.validateField(field, (err: any) => {
     // eslint-disable-next-line no-console
-    console.log('err: ', err)
+    console.log('validate err: ', err)
   })
 }
 
@@ -796,7 +793,6 @@ onLoad(() => {
   let { top, height } = customHeight
   let navigationBarHeight = height + (top - statusBarHeight) * 2
   marginTopMain.value = `${navigationBarHeight + statusBarHeight}px`
-  console.log('marginTopMain: ', marginTopMain.value)
 })
 
 onMounted(async () => {

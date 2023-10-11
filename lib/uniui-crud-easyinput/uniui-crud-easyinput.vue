@@ -254,7 +254,6 @@ export default {
     },
 
     msg() {
-      // console.log('computed', this.form, this.formItem);
       // if (this.form) {
       // 	return this.errorMessage || this.formItem.errMsg;
       // }
@@ -501,7 +500,7 @@ $uni-border-1: #dcdfe6 !default;
   position: relative;
   text-align: left;
   color: #333;
-  font-size: 14px;
+  font-size: 28rpx;
 }
 
 .uniui-crud-easyinput__content {
@@ -528,14 +527,18 @@ $uni-border-1: #dcdfe6 !default;
   overflow: hidden;
   flex: 1;
   line-height: 1;
-  font-size: 14px;
-  height: 35px;
+  font-size: 28rpx;
+  height: 70rpx;
+  min-height: 40rpx;
+  line-height: 40rpx;
+  margin: 16rpx 0;
+  text-align: right;
   // min-height: 36px;
 }
 
 .uniui-crud-easyinput__placeholder-class {
   color: #999;
-  font-size: 12px;
+  font-size: 24rpx;
   // font-weight: 200;
 }
 
@@ -544,7 +547,7 @@ $uni-border-1: #dcdfe6 !default;
 }
 
 .is-textarea-icon {
-  margin-top: 5px;
+  margin-top: 10rpx;
 }
 
 .uniui-crud-easyinput__content-textarea {
@@ -552,13 +555,16 @@ $uni-border-1: #dcdfe6 !default;
   overflow: hidden;
   flex: 1;
   line-height: 1.5;
-  font-size: 14px;
-  margin: 6px;
+  font-size: 28rpx;
+  margin: 16rpx 0 40rpx 0;
   margin-left: 0;
-  height: 80px;
-  min-height: 80px;
+  height: 160rpx;
+  min-height: 160rpx;
+  padding: 32rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
   /* #ifndef APP-NVUE */
-  min-height: 80px;
+  min-height: 160rpx;
   width: auto;
   /* #endif */
 }

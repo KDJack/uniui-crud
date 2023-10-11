@@ -200,7 +200,6 @@ watch(
 
 onMounted(() => {
   // eslint-disable-next-line no-console
-  console.log('instance: ', instance)
   selectIndex.value = 0
 })
 
@@ -356,6 +355,13 @@ defineExpose({ show })
         }
       }
     }
+  }
+
+  .uniui-crud-easyinput__content-input {
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    // background-color: #f8f9fa;
   }
 }
 </style>

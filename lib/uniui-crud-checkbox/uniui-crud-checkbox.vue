@@ -4,6 +4,13 @@
     <text v-if="desc.suffixText" class="suffix-text">{{ desc.suffixText }}</text>
   </view>
 </template>
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared' // 解除样式隔离
+  }
+}
+</script>
 <script lang="ts" setup>
 import { ref, reactive, watch, useAttrs, onBeforeMount, inject } from 'vue'
 import { getAttrs } from '../uniui-crud-form/mixins'
@@ -90,6 +97,20 @@ watch(
     font-size: 32rpx;
     color: #333333;
     font-weight: 500;
+  }
+
+  ::v-deep .uni-data-checklist {
+    .checklist-group {
+      .checklist-box {
+        margin: 34rpx 24rpx !important;
+      }
+      .checklist-box:last-child {
+        margin-right: 0 !important;
+      }
+      .checklist-box:first-child {
+        margin-left: 0 !important;
+      }
+    }
   }
 }
 </style>

@@ -70,12 +70,49 @@ watch(
     color: #333333;
     font-weight: 500;
   }
-}
-.uniui-crud-textarea {
-  .uni-easyinput {
-    .is-textarea {
-      background-color: #f8f8f8 !important;
-      border-radius: 4rpx;
+
+  .uni-date {
+    .uni-date-editor {
+      .uni-date-x {
+        justify-content: flex-end;
+        .icon-calendar {
+          display: none;
+        }
+        .uni-date__x-input {
+          flex: none;
+          font-size: 14px;
+          color: #999999;
+          font-weight: 400;
+        }
+      }
+    }
+    .uni-calendar-item--multiple .uni-calendar-item--before-checked,
+    .uni-calendar-item--multiple .uni-calendar-item--after-checked {
+      background-color: $uni-color-primary;
+    }
+
+    .uni-calendar {
+      .uni-calendar-item__weeks-box {
+        .uni-calendar-item--checked {
+          background-color: $uni-color-primary;
+        }
+      }
+      .uni-datetime-picker--btn {
+        background-color: $uni-color-primary;
+        border-radius: 2px;
+      }
+    }
+  }
+  .active {
+    .uni-date {
+      .uni-date-editor {
+        .uni-date-x {
+          .uni-date__x-input {
+            font-weight: 500;
+            color: #333333;
+          }
+        }
+      }
     }
   }
 }

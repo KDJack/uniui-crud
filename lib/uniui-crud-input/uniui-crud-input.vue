@@ -76,12 +76,4 @@ watch(
     font-weight: 500;
   }
 }
-.uniui-crud-textarea {
-  .uni-easyinput {
-    .is-textarea {
-      background-color: #f8f8f8 !important;
-      border-radius: 4rpx;
-    }
-  }
-}
 </style>

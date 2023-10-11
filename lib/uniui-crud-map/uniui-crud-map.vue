@@ -45,16 +45,16 @@ function handelOpenMap() {
       mapLocation.latitude = latitude
       mapLocation.longitude = longitude
       // eslint-disable-next-line no-console
-      console.log('成功获取到用户经纬度: ', latitude, longitude)
+      // console.log('成功获取到用户经纬度: ', latitude, longitude)
       uni.chooseLocation({
         success: ({ name, address, latitude, longitude }) => {
           // eslint-disable-next-line no-console
-          console.log('拉取chooseLocation成功: ', name, address, latitude, longitude)
+          // console.log('拉取chooseLocation成功: ', name, address, latitude, longitude)
           currentValue.value = { name, address, latitude, longitude }
         },
         fail: (e: any) => {
           // eslint-disable-next-line no-console
-          console.log('拉取chooseLocation失败: ', e)
+          // console.log('拉取chooseLocation失败: ', e)
         }
       })
     },
@@ -138,6 +138,13 @@ watch(
       color: #999999;
       line-height: 64rpx;
     }
+  }
+
+  .uniui-crud-easyinput__content-input {
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    // background-color: #f8f9fa;
   }
 }
 </style>

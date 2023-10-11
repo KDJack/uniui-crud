@@ -53,17 +53,6 @@ function request<T>(url: string, method: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | '
   // 传参： 接口url，  method类型， params参数
   let token = uni.getStorageSync('token') || ''
   return new Promise<T>((resolve, reject) => {
-    // eslint-disable-next-line no-console
-    console.log('请求信息：', {
-      method,
-      url,
-      data: queryData,
-      header: {
-        ...(headers || {}),
-        ['Device-Type']: 'WXMA',
-        Authorization: token
-      }
-    })
     uni.request({
       method: method,
       url,
@@ -74,8 +63,6 @@ function request<T>(url: string, method: 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | '
         Authorization: token
       },
       success: function ({ data, statusCode }) {
-        // eslint-disable-next-line no-console
-        console.log('响应信息: ', { url, data })
         const { code, status, result, data: rData, msg, message } = data as any
         if (statusCode === 200) {
           if (code === 200 || status === 0) {

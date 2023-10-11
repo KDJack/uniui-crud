@@ -7,6 +7,13 @@
     <text v-if="desc.suffixText" class="suffix-text">{{ desc.suffixText }}</text>
   </view>
 </template>
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared' // 解除样式隔离
+  }
+}
+</script>
 <script lang="ts" setup>
 import { ref, reactive, watch, useAttrs, onBeforeMount, inject } from 'vue'
 import { getAttrs } from '../uniui-crud-form/mixins'
@@ -90,6 +97,23 @@ watch(
     font-size: 32rpx;
     color: #333333;
     font-weight: 500;
+  }
+  ::v-deep .uni-data-picker {
+    flex: 1;
+    padding: 9px 0;
+    .input-value-border {
+      border: none;
+      padding: 0;
+      .selected-area {
+        font-size: 14px;
+        color: #999999;
+        font-weight: 400;
+        justify-content: flex-end;
+        .selected-list {
+          justify-content: flex-end;
+        }
+      }
+    }
   }
 }
 </style>
