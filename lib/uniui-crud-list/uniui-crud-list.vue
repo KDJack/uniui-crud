@@ -12,12 +12,19 @@
       <slot name="default" :dataList="dataList"></slot>
     </view>
     <!-- 加载更多 -->
-    <uni-load-more :status="status"></uni-load-more>
+    <uni-load-more :status="status" v-if="dataList.length"></uni-load-more>
+    <view class="placeholder-image" :style="{ 'margin-top': marginTopMain }" v-if="!dataList.length">
+      <view>
+        <image :src="placeholderImg" />
+        <view class="placeholder-text">暂无内容</view>
+      </view>
+    </view>
   </view>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, nextTick, watch, computed, onMounted } from 'vue'
 import { onReachBottom, onLoad } from '@dcloudio/uni-app'
+import { base64Img } from './Base64'
 
 const topPadding = ref('0px')
 const marginTopMain = ref('0px')
@@ -33,6 +40,7 @@ interface IListConfigLocal {
   queryMap?: any
   // 列表头部
   headerConf: ILIHeaderConfig
+  placeholderImg:any
 }
 
 const emits = defineEmits(['tabChange', 'itemClick'])
@@ -40,6 +48,7 @@ const props = defineProps<IListConfigLocal>()
 
 const dataList = reactive([] as any[])
 const localQuery = ref({} as any)
+const placeholderImg = ref((props.placeholderImg || base64Img) as any)
 // 分页信息
 // eslint-disable-next-line vue/no-setup-props-destructure
 const pageInfo = reactive({
@@ -333,6 +342,20 @@ defineExpose({ reload })
 
     .list-item:last-child {
       margin-bottom: 0;
+    }
+  }
+  .placeholder-image{
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .placeholder-text{
+      font-size:28rpx;
+      color:#999999;
+      text-align: center;
+      margin-top: 24rpx;
     }
   }
 }
