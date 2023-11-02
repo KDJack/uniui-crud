@@ -1,6 +1,6 @@
 <template>
   <view class="uniui-crud-btn">
-    <view class="btn-main" :class="{ plain: desc.plain }" :style="{ filter: `grayscale(${localLoading ? 80 : 0}%)`, height: desc.height || '48px' }" @click.stop="handelBtnClick">
+    <view class="btn-main" :class="{ plain: desc.plain }" :style="{ filter: `grayscale(${disabled || desc.disabled || localLoading ? 80 : 0}%)`, height: desc.height || height || '96rpx', width: desc.width || width || '100%', fontSize: desc.fontSize || fontSize || '32rpx' }" @click.stop="handelBtnClick">
       <uni-icons v-if="localLoading" class="run-rotating" type="loop" :color="desc.plain ? '#007b57' : '#ffffff'" :size="20"></uni-icons>
       <slot name="default">
         {{ btnShowText }}
@@ -23,6 +23,10 @@ const props = defineProps<{
   desc: { [key: string]: any }
   formData: { [key: string]: any }
   rowIndex?: number
+  height?: string
+  width?: string
+  fontSize?: string
+  disabled?: boolean
 }>()
 
 // 加载
@@ -40,9 +44,7 @@ const onEvents = computed(() => {
           localLoading.value = true
           props.desc.on[key]({
             row: props.formData,
-            callBack: () => {
-              setTimeout(() => (localLoading.value = false), 500)
-            },
+            callBack: (time: number) => setTimeout(() => (localLoading.value = false), time || 50),
             field: props.field,
             rowIndex: props.rowIndex
           } as IBtnBack)
@@ -78,6 +80,7 @@ const btnShowText = computed(() => {
  * 按钮点击事件
  */
 function handelBtnClick() {
+  if (props.disabled || props.desc.disabled) return false
   if (localLoading.value) return false
   if (props.desc?.confirm) {
     confirmDialogRef.value.open()
@@ -109,12 +112,10 @@ function handelConfirm() {
   align-items: center;
   box-sizing: border-box;
   .btn-main {
-    width: 100%;
     display: flex;
     background-color: $uni-color-primary;
     border: 1px solid $uni-color-primary;
     box-sizing: border-box;
-    font-size: 32rpx;
     font-weight: 400;
     color: #ffffff;
     border-radius: 4rpx;
