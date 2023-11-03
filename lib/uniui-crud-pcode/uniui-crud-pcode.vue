@@ -62,13 +62,17 @@ async function handelSendClick({ callBack }: IBtnBack) {
   }
 
   if (props.desc?.remote) {
-    const postData = Object.assign({}, props.desc?.queryData, { [phoneKey.value]: phoneVal })
-    let res = await props.desc?.remote(postData)
-    // 开始倒计时
-    littleTime.value = 60
-    cutTime()
-    props.formData.code = typeof res === 'string' && res.length < 7 ? res : ''
-    callBack && callBack(100)
+    try {
+      const postData = Object.assign({}, props.desc?.queryData, { [phoneKey.value]: phoneVal })
+      let res = await props.desc?.remote(postData)
+      // 开始倒计时
+      littleTime.value = 60
+      cutTime()
+      props.formData.code = typeof res === 'string' && res.length < 7 ? res : ''
+      callBack && callBack(100)
+    } catch (err) {
+      callBack && callBack(100)
+    }
   }
 }
 
