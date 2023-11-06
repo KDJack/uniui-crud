@@ -1,7 +1,7 @@
 <template>
-  <view class="uniui-crud-sign">
+  <view class="uniui-curd-sign">
     <view class="sign-data-panel" @click.stop="show">
-      <image v-if="currentValue" style="width: 100%; height: 100%" mode="aspectFit" :src="currentValue" />
+      <image v-if="currentValue?.shareUrl" style="width: 100%; height: 100%" mode="aspectFit" :src="currentValue.shareUrl" />
       <view v-else class="text">点击签字</view>
     </view>
 
@@ -9,8 +9,8 @@
       <view class="sign-content">
         <canvas class="mycanvas" canvas-id="mycanvas" disable-scroll="true" style="width: 100%; height: 70vw" @touchstart="handelTouchstart" @touchmove="handelTouchmove" @touchend="handelTouchend" />
         <view class="content_btn">
-          <uniui-crud-btn :desc="{ label: '清空', plain: true, on: { click: clear } }"></uniui-crud-btn>
-          <uniui-crud-btn :desc="{ label: '确定', on: { click: upload } }"></uniui-crud-btn>
+          <uniui-curd-btn :desc="{ label: '清空', plain: true, on: { click: clear } }"></uniui-curd-btn>
+          <uniui-curd-btn :desc="{ label: '确定', mask: true, on: { click: upload } }"></uniui-curd-btn>
         </view>
       </view>
     </uni-popup>
@@ -18,12 +18,13 @@
 </template>
 
 <script lang="ts" setup>
+// import { serverBaseUrl } from '@/config/index'
 import { onMounted, ref, getCurrentInstance } from 'vue'
 
 const instance = getCurrentInstance() as any
 
 const props = defineProps<{
-  modelValue?: string | null
+  modelValue?: IOssInfo | null
   field: string
   desc: { [key: string]: any }
   formData: { [key: string]: any }
@@ -108,7 +109,7 @@ function draw() {
 function clear(notClearVal?: boolean) {
   isClear.value = true
   if (!notClearVal) {
-    currentValue.value = ''
+    currentValue.value = null
   }
   picture.value.clearRect(0, 0, windowWidth.value, windowHeight.value)
   picture.value.draw(true)
@@ -117,24 +118,32 @@ function clear(notClearVal?: boolean) {
 /**
  * 完成签名
  */
-function upload() {
+function upload({ callBack }: IBtnBack) {
   if (isClear.value) {
-    currentValue.value = ''
+    currentValue.value = null
     // 这里清空一下画布
     clear(true)
     signPopupRef.value.close()
+    callBack && callBack()
     return false
   }
   // #ifdef MP-WEIXIN
   uni.canvasToTempFilePath(
     {
       canvasId: 'mycanvas',
-      success: (res) => {
-        currentValue.value = res.tempFilePath
+      success: async (res) => {
+        // currentValue.value = res.tempFilePath;
+        await setUnload(res)
+        // 这里清空一下画布
+        clear(true)
+        signPopupRef.value.close()
       },
       fail: (res) => {
         // eslint-disable-next-line no-console
-        console.log('签名获取失败', res)
+        console.log(res)
+      },
+      complete: () => {
+        callBack && callBack()
       }
     },
     instance
@@ -143,18 +152,58 @@ function upload() {
   // #ifndef MP-WEIXIN
   uni.canvasToTempFilePath({
     canvasId: 'mycanvas',
-    success: (res) => {
-      currentValue.value = res.tempFilePath
+    success: async (res) => {
+      // currentValue.value = res.tempFilePath;
+      await setUnload(res)
+      // 这里清空一下画布
+      clear(true)
+      signPopupRef.value.close()
     },
     fail: (res: any) => {
       // eslint-disable-next-line no-console
-      console.log('签名获取失败: ', res)
+      console.log(res)
+    },
+    complete: () => {
+      callBack && callBack()
     }
   })
   // #endif
-  // 这里清空一下画布
-  clear(true)
-  signPopupRef.value.close()
+}
+
+async function setUnload(file: any) {
+  if (!props.desc?.action) {
+    console.warn('desc中未配置 action 属性 ，无法自动上传，需手动处理上传....')
+    return await new Promise((resolve) => resolve(true))
+  }
+  let token = uni.getStorageSync('token')
+  uni.uploadFile({
+    //图片上传地址
+    // url: serverBaseUrl + 'file/fileannex/upload',
+    url: props.desc.action,
+    filePath: file.tempFilePath,
+    //上传名字，注意与后台接收的参数名一致
+    name: 'file',
+    header: {
+      Authorization: token
+    },
+    formData: {
+      //HTTP 请求中其他额外的 form data
+      filename: new Date().getTime() + '.png' //后端接口需要加.png
+    },
+    //请求成功，后台返回自己服务器上的图片地址
+    success: (res) => {
+      const data = JSON.parse(res.data).result
+      currentValue.value = data
+    },
+    fail: () => {
+      uni.showToast({
+        title: '上传失败，请稍候再试！',
+        duration: 1000,
+        icon: 'none'
+      })
+      return
+    }
+  })
 }
 
 onMounted(() => {
@@ -171,7 +220,7 @@ onMounted(() => {
 defineExpose({ show })
 </script>
 <style lang="scss" scoped>
-.uniui-crud-sign {
+.uniui-curd-sign {
   width: 100%;
   padding-bottom: 40rpx;
 
