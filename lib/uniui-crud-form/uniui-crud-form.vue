@@ -667,9 +667,17 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
         }
         nextTick(() => {
           if (tempAttr.success && typeof tempAttr.success === 'function') {
-            tempAttr.success({ response, formData: props.modelValue, callback: () => (innerIsLoading.value = false) } as IFormBack)
+            tempAttr.success({
+              response,
+              formData: props.modelValue,
+              callback: () => {
+                btnBack.callBack && btnBack.callBack()
+                innerIsLoading.value = false
+              }
+            } as IFormBack)
+          } else {
+            btnBack.callBack && btnBack.callBack()
           }
-          btnBack.callBack && btnBack.callBack()
         })
       } catch (error) {
         // 如果用户有处理异常的方法了

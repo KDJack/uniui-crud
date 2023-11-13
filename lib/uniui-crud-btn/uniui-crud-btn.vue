@@ -34,6 +34,9 @@ const localLoading = ref(false)
 
 const confirmDialogRef = ref()
 
+// 关闭遮罩的定时器-默认遮罩15秒关闭
+let closeTimer = null as any
+
 // 处理事件
 const onEvents = computed(() => {
   const events = {} as any
@@ -44,10 +47,16 @@ const onEvents = computed(() => {
           localLoading.value = true
           props.desc.on[key]({
             row: props.formData,
-            callBack: (time: number) => setTimeout(() => (localLoading.value = false), time || 50),
+            callBack: (time: number) => setTimeout(() => (localLoading.value = false), time || 200),
             field: props.field,
             rowIndex: props.rowIndex
           } as IBtnBack)
+          // 默认遮罩15秒关闭
+          closeTimer = setTimeout(() => {
+            localLoading.value = false
+            clearTimeout(closeTimer)
+            closeTimer = null
+          }, 15000)
         }
       } else {
         events[key] = function () {
