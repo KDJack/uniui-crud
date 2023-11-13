@@ -460,6 +460,7 @@ const btnList = computed(() => {
     btnList_.push({
       field: '_reset_btn',
       desc: {
+        mask: true,
         label: props.submitBtnText || '提交',
         loading: props.isLoading || innerIsLoading.value,
         on: { click: handleSubmitForm }
