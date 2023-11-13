@@ -712,7 +712,7 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
     // eslint-disable-next-line no-console
     console.log('表单校验失败: ', error)
   } finally {
-    callBack && callBack()
+    btnBack.callBack && btnBack.callBack()
   }
 }
 
