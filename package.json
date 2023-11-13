@@ -2,7 +2,7 @@
   "name": "uniui-crud",
   "description": "二次封装uni-ui,数据驱动表单组件",
   "author": "K.D.Jack",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "license": "MIT",
   "private": false,
   "types": "lib/index.d.ts",
