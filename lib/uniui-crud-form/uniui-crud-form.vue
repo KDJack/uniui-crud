@@ -669,6 +669,7 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
           if (tempAttr.success && typeof tempAttr.success === 'function') {
             tempAttr.success({ response, formData: props.modelValue, callback: () => (innerIsLoading.value = false) } as IFormBack)
           }
+          btnBack.callBack && btnBack.callBack()
         })
       } catch (error) {
         // 如果用户有处理异常的方法了
@@ -695,6 +696,7 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
         }
         // 报错了这里恢复
         innerIsLoading.value = false
+        btnBack.callBack && btnBack.callBack()
       } finally {
         if (!props.isDialog) {
           innerIsLoading.value = false
@@ -706,12 +708,11 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
     } else {
       // 在外部用户自己处理请求
       if (props.isLoading) return
-      emits('request', postData)
+      emits('request', postData, btnBack)
     }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('表单校验失败: ', error)
-  } finally {
     btnBack.callBack && btnBack.callBack()
   }
 }
