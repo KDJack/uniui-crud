@@ -486,7 +486,7 @@ const handelKeyValue = (formItem: IFormDescItem, key: string, field: string, def
 }
 
 // 验证表单
-const validateForm = () => {
+const validateForm = (btnBack: IBtnBack) => {
   let errorMsg = '' as any
   // 循环校验
   for (let key in props.formDesc) {
@@ -496,6 +496,7 @@ const validateForm = () => {
         if (computedRules.value[key][i].required) {
           if (props.modelValue[key] === undefined || props.modelValue[key] === null || props.modelValue[key] === '') {
             uni.showToast({ title: props.formDesc[key].placeholder || `${props.formDesc[key]._label}不能为空`, icon: 'none' })
+            btnBack.callBack && btnBack.callBack()
             return false
           }
         }
@@ -503,6 +504,7 @@ const validateForm = () => {
           errorMsg = computedRules.value[key][i].validator(props.modelValue[key], props.modelValue)
           if (errorMsg !== true) {
             uni.showToast({ title: `${props.formDesc[key]._label}：${errorMsg}`, icon: 'none' })
+            btnBack.callBack && btnBack.callBack()
             return false
           }
         }
@@ -613,9 +615,9 @@ const changeValidImg = () => {
 /**
  * 提交表单
  */
-const handleSubmitForm = async () => {
+const handleSubmitForm = async (btnBack: IBtnBack) => {
   // 校验
-  const validate = validateForm()
+  const validate = validateForm(btnBack)
   if (!validate) return false
   // 获取数据
   let postData = getFormData()
@@ -709,6 +711,8 @@ const handleSubmitForm = async () => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('表单校验失败: ', error)
+  } finally {
+    callBack && callBack()
   }
 }
 
