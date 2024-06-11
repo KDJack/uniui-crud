@@ -1,15 +1,15 @@
 <template>
-  <view class="uni-ui-crud-form" :style="{ 'padding-top': isMT ? marginTopMain : '', ...formLayout }">
+  <view class="uni-ui-crud-form" :style="{ 'padding-top': isMT ? marginTopMain : '', ...formLayout, '--crud-form-panel-bg-radius': bgRadius }">
     <slot name="top" :formData="modelValue"></slot>
     <view :style="{ display: 'flex', justifyContent: isDialog ? 'center' : '' }">
       <uni-forms ref="refElPlusForm" :model="props.modelValue" @submit.prevent="handleSubmitForm" v-bind="computedFormAttrs">
         <view class="uni-list">
           <view v-for="(formList, index) in attrMapToList" :key="index" class="uni-list-cell" :style="{ marginRight: isTable ? '20px' : 0 }">
             <template v-for="(formItem, y) in formList" :key="index + '-' + y + '-' + formItem.field">
-              <view v-if="formItem.topTitle" class="title-line flex_ex justify_between align_center">
+              <view v-if="formItem.topTitle" class="title-line flex_ex justify_between align_center" :class="{ 'bg-radius-top': y === 0 }">
                 <view class="title">{{ formItem.topTitle }}</view>
               </view>
-              <view v-if="formItem._vif" class="crud-form-item" :style="{ paddingLeft: formItem.type === 'pcode' ? '10px' : '20px', paddingTop: formItem.type === 'sign' ? '20px' : '' }">
+              <view v-if="formItem._vif" class="crud-form-item" :class="{ 'bg-radius-top': y === 0 && !formItem.topTitle, 'bg-radius-bottom': y === formList.length - 1 || formItem.cut }" :style="{ paddingLeft: formItem.type === 'pcode' ? '10px' : '20px', paddingTop: formItem.type === 'sign' ? '20px' : '' }">
                 <template v-if="['upload', 'textarea', 'progress', 'slider', 'sign', 'pcode'].indexOf(formItem.type || '') >= 0">
                   <view class="uni-forms-item">
                     <view class="uni-forms-item__label forms-item-labe-line" v-if="formItem.type !== 'pcode' && showLabel && formItem.showLabel !== false">
@@ -170,6 +170,8 @@ export interface IFormProps {
   isMT?: boolean
   // 按钮行样式
   btnRowStyle?: any
+  // 背景圆角
+  bgRadius?: string
   // 比如 beforeValidate, beforeRequest, success, requestError, requestEnd
   // 其他钩子 直接放到attrs里面去了
 }
@@ -233,7 +235,9 @@ const props = withDefaults(defineProps<IFormProps>(), {
   isTable: false,
   // 唯一标识符。默认为id
   idKey: 'id',
-  labelPosition: 'left'
+  labelPosition: 'left',
+  // 背景圆角
+  bgRadius: '20rpx'
   // 其他钩子 直接放到attrs里面去了
   // 比如 beforeValidate, beforeRequest, success, requestError, requestEnd
 })
@@ -332,21 +336,15 @@ const attrMapToList = computed(() => {
     for (const key in props.formDesc) {
       tempData.push({ ...props.formDesc[key], field: key })
     }
-    // 这里处理一下layout的布局-渲染
+    // 这里处理一下通过cut进行裁剪
     let rowItemList = [] as Array<IFormDescItem>
-    let tempCount = 0
     tempData.map((item) => {
       if (item._vif || item.isBlank) {
         rowItemList.push(item)
-        tempCount++
-        if (item.colspan) {
-          tempCount += item.colspan - 1
-        }
-        if (tempCount >= props.column) {
-          // 一行结束
+        if (item.cut) {
+          // 一组结束
           formLayoutRows.push(rowItemList)
           rowItemList = [] as Array<IFormDescItem>
-          tempCount = 0
           return
         }
       }
@@ -822,6 +820,10 @@ defineExpose({ submit: handleSubmitForm, getData: getFormData, validate: validat
 /* eslint-enable */
 </script>
 <style lang="scss" scoped>
+// 定义表单背景圆角变量
+page {
+  --crud-form-panel-bg-radius: 0;
+}
 .uni-ui-crud-form {
   width: 100%;
   overflow-x: hidden;
@@ -830,14 +832,24 @@ defineExpose({ submit: handleSubmitForm, getData: getFormData, validate: validat
     width: 100%;
     display: flex;
     flex-direction: column;
+
     .uni-list-cell {
       position: relative;
       display: flex;
       box-sizing: border-box;
       flex-direction: column;
+
       .form-cut {
         width: 100%;
         height: 16rpx;
+      }
+      .bg-radius-top {
+        border-top-left-radius: var(--crud-form-panel-bg-radius);
+        border-top-right-radius: var(--crud-form-panel-bg-radius);
+      }
+      .bg-radius-bottom {
+        border-bottom-left-radius: var(--crud-form-panel-bg-radius);
+        border-bottom-right-radius: var(--crud-form-panel-bg-radius);
       }
       .crud-form-item {
         background-color: #fff;

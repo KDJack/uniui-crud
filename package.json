@@ -9,6 +9,7 @@
   "scripts": {
     "lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue lib/",
     "preview": "vite preview",
+    "sync": "cnpm sync uniui-crud",
     "release": "standard-version",
     "prepare": "rimraf .husky && npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\"",
     "pub": "yarn release && yarn publish"
