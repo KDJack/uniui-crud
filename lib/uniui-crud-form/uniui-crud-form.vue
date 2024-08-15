@@ -45,6 +45,9 @@
                   <template v-else-if="formItem.type === 'select'">
                     <uniui-crud-pciker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
+                  <template v-else-if="formItem.type === 'dataPicker'">
+                    <uniui-crud-dataPicker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                  </template>
                   <template v-else-if="formItem.type === 'ratio'">
                     <uniui-crud-checkbox :multiple="false" style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
