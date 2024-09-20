@@ -83,6 +83,7 @@ export function getPlaceholder(desc: { [key: string]: any }): string {
     case 'area':
     case 'date':
     case 'select':
+    case 'selectTag':
     case 'category':
     case 'cascader':
     case 'map':

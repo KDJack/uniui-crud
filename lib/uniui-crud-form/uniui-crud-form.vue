@@ -45,6 +45,9 @@
                   <template v-else-if="formItem.type === 'select'">
                     <uniui-crud-pciker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
+                  <template v-else-if="formItem.type === 'selectTag'">
+                    <uniui-crud-selectTag style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                  </template>
                   <template v-else-if="formItem.type === 'dataPicker'">
                     <uniui-crud-dataPicker style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
@@ -265,8 +268,7 @@ const marginTopMain = ref('0px')
 // 整体的布局方式
 const formLayout = computed(() => ({
   display: 'flex',
-  flexDirection: props.isTable ? 'row' : 'column',
-  marginTop: navbarInfo.value.height + 'px'
+  flexDirection: props.isTable ? 'row' : 'column'
 })) as any
 
 // 表单的Attrs
