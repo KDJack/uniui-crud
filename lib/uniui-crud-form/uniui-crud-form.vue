@@ -864,9 +864,9 @@ page {
         border-bottom: 1px solid #f8f8f8;
 
         .form-weight-label {
-          font-size: 32rpx;
+          font-size: 14px;
           font-weight: 500;
-          color: #333333;
+          color: #999;
         }
 
         .textField {

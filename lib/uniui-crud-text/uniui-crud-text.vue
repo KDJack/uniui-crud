@@ -1,7 +1,10 @@
 <template>
-  <view class="uniui-crud-text" :style="desc.style">
-    <view class="">
-      {{ formatValue }}
+  <view class="uniui-crud-text" :style="desc.style" @click.stop="handelClick">
+    <view class="placeholder" v-if="desc.placeholder && (!formatValue || formatValue === '-')">
+      {{ desc.placeholder }}
+    </view>
+    <view class="" v-else>
+      {{ formatValue || '' }}
     </view>
     <text v-if="desc.suffixText" class="suffix-text" :style="desc.suffixStyle">{{ desc.suffixText }}</text>
   </view>
@@ -22,6 +25,15 @@ const props = defineProps<{
 
 const formatValue = ref('' as any)
 const attrs = ref({} as any)
+
+/**
+ * 处理change
+ */
+function handelClick() {
+  if (props.desc?.on?.click) {
+    props.desc.on.click(props.formData, formatValue.value)
+  }
+}
 
 watch(
   () => props.modelValue,
@@ -53,7 +65,7 @@ watch(
         if (props.modelValue !== null && props.modelValue !== undefined) {
           formatValue.value = props.modelValue
         } else {
-          formatValue.value = '—'
+          formatValue.value = '-'
         }
       }
     }
@@ -80,6 +92,11 @@ onBeforeMount(async () => {
     font-size: 32rpx;
     color: #333333;
     font-weight: 500;
+  }
+  .placeholder {
+    color: #999;
+    font-size: 12px;
+    padding-right: 10px;
   }
 }
 </style>
