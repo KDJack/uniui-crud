@@ -1,7 +1,7 @@
 <template>
   <view class="uniui-crud-map">
-    <view class="map-addr-text" @click.stop="handelOpenMap">
-      <image class="addr-point" src="../../static/images/icon/location.png"></image>
+    <view class="map-addr-text" :style="{ paddingRight: desc.icon ? '60rpx' : '0' }" @click.stop="handelOpenMap">
+      <image v-if="desc.icon" class="addr-point" :src="desc.icon"></image>
       <template v-if="currentValue?.address">
         <view class="address">{{ currentValue?.name }}</view>
         <view class="address-detail line-clamp2">{{ currentValue?.address }}</view>
@@ -23,7 +23,7 @@ const props = defineProps<{
   formData: { [key: string]: any }
 }>()
 
-const emits = defineEmits(['update:modelValue', 'validateThis'])
+const emits = defineEmits(['update:modelValue', 'change', 'validateThis'])
 
 const mapLocation = reactive({ latitude: 30.6598, longitude: 104.065072 })
 const currentValue = ref<{
@@ -51,6 +51,7 @@ function handelOpenMap() {
           // eslint-disable-next-line no-console
           // console.log('拉取chooseLocation成功: ', name, address, latitude, longitude)
           currentValue.value = { name, address, latitude, longitude }
+          emits('change', currentValue.value)
         },
         fail: (e: any) => {
           // eslint-disable-next-line no-console
@@ -93,16 +94,16 @@ watch(
 <style lang="scss" scoped>
 .uniui-crud-map {
   width: 100%;
+  flex: 1;
   padding: 10px 0;
-  min-height: 104rpx;
   box-sizing: border-box;
+  min-height: 104rpx;
   .map-addr-text {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
+    flex: 1;
     align-items: flex-end;
-    padding-right: 60rpx;
+    box-sizing: border-box;
     position: relative;
     .addr-point {
       position: absolute;

@@ -91,6 +91,20 @@ function getIndex(path: string): number {
 async function unload(file: any) {
   // eslint-disable-next-line no-console
   const tempFilePaths = file.tempFilePaths
+  // 判断是否需要获取token
+  let key = ''
+  let token = ''
+  if (props.desc?.token) {
+    if (typeof props.desc.token === 'function') {
+      token = (await props.desc.token()) as any
+      if (props.desc?.tokenKey) {
+        token = token[props.desc.tokenKey]
+      }
+    } else {
+      token = props.desc.token
+    }
+  }
+
   // 循环调用
   await Promise.all(
     tempFilePaths.map((fileData: any, i: number) => {
@@ -106,13 +120,15 @@ async function unload(file: any) {
           //上传名字，注意与后台接收的参数名一致
           name: 'file',
           formData: {
+            token,
+            key: `${new Date().getTime()}`,
             //HTTP 请求中其他额外的 form data
             filename: file.tempFiles[i]?.name || ''
           },
           //请求成功，后台返回自己服务器上的图片地址
           success: (res) => {
             let data = JSON.parse(res.data)
-            if (+data.code !== 200) {
+            if (!data.furl) {
               // 移除
               if (filePickerRef.value?.files?.length) {
                 filePickerRef.value.files.splice(index, 1)
@@ -127,10 +143,9 @@ async function unload(file: any) {
               })
               reject()
             } else {
-              data = data.result
-              data.url = data.shareUrl
+              data.url = data.furl
               data.extname = data.suffix
-              currentValue.value.push(data)
+              currentValue.value.push(data.furl)
               if (filePickerRef.value?.files?.length) {
                 filePickerRef.value.files[index].status = 'success'
               }

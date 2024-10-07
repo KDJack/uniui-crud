@@ -150,6 +150,7 @@ watch(
     flex: 1;
     text-align: right;
     height: 70rpx;
+    line-height: 70rpx;
     margin: 16rpx 0;
     padding: 0 10px;
     box-sizing: border-box;
@@ -213,7 +214,7 @@ watch(
       margin: 20rpx 0;
       box-sizing: border-box;
       .tag-item {
-        height: fit-content;
+        // height: fit-content;
         text-align: center;
         padding: 24rpx 16rpx;
         border-radius: 8rpx;
