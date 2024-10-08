@@ -63,6 +63,9 @@
                   <template v-else-if="formItem.type === 'time'">
                     <uniui-crud-time style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
+                  <template v-else-if="formItem.type === 'switch'">
+                    <uniui-crud-switch style="min-width: 80px; width: 100%" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
+                  </template>
                   <template v-else-if="formItem.type === 'datetime'">
                     <uniui-crud-date style="min-width: 80px; width: 100%" type="datetime" :formData="props.modelValue" :disabled="formItem._disabled || disabled || false" :readonly="readonly || false" v-bind="formItem._attrs" :desc="formItem" :ref="setComponentRef" :field="formItem.field || ''" v-model="props.modelValue[formItem.field || '']" :isTable="isTable" @validateThis="() => handelValidateThis(formItem.field || '')" />
                   </template>
@@ -108,6 +111,13 @@
     <slot name="form-footer" :formData="props.modelValue"></slot>
   </view>
 </template>
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared' // 解除样式隔离
+  }
+}
+</script>
 <script lang="ts" setup>
 /* eslint-disable */
 import { ref, computed, useAttrs, nextTick, onMounted, watch, inject } from 'vue'
@@ -499,7 +509,7 @@ const validateForm = (btnBack: IBtnBack) => {
         if (computedRules.value[key][i].required) {
           if (props.modelValue[key] === undefined || props.modelValue[key] === null || props.modelValue[key] === '') {
             uni.showToast({ title: props.formDesc[key].placeholder || `${props.formDesc[key]._label}不能为空`, icon: 'none' })
-            btnBack.callBack && btnBack.callBack()
+            btnBack?.callBack && btnBack.callBack()
             return false
           }
         }
@@ -507,7 +517,7 @@ const validateForm = (btnBack: IBtnBack) => {
           errorMsg = computedRules.value[key][i].validator(props.modelValue[key], props.modelValue)
           if (errorMsg !== true) {
             uni.showToast({ title: `${props.formDesc[key]._label}：${errorMsg}`, icon: 'none' })
-            btnBack.callBack && btnBack.callBack()
+            btnBack?.callBack && btnBack.callBack()
             return false
           }
         }
@@ -543,17 +553,17 @@ const handelValToForm = (desc: IFormDescItem, field: string, val: any) => {
         result['categoryId' + (i + 1)] = val[i] || ''
       }
     }
-  } else if (desc.type === 'area') {
-    if (val === null) val = [null, null, null, null]
-    const [pid, cid, zid, sid] = val
-    if (desc.checkStrictly) {
-      result[field] = sid || zid || cid || pid || null
-    } else {
-      result.provinceId = pid || -1
-      result.cityId = cid || -1
-      result.zoneId = zid || -1
-      result.streetId = sid || -1
-    }
+    // } else if (desc.type === 'area') {
+    //   if (val === null) val = [null, null, null, null]
+    //   const [pid, cid, zid, sid] = val
+    //   if (desc.checkStrictly) {
+    //     result[field] = sid || zid || cid || pid || null
+    //   } else {
+    //     result.provinceId = pid || -1
+    //     result.cityId = cid || -1
+    //     result.zoneId = zid || -1
+    //     result.streetId = sid || -1
+    //   }
   } else if (desc.type === 'daterange') {
     if (val && val.length === 2) {
       result.startTime = val[0]
@@ -674,12 +684,12 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
               response,
               formData: props.modelValue,
               callback: () => {
-                btnBack.callBack && btnBack.callBack()
+                btnBack?.callBack && btnBack.callBack()
                 innerIsLoading.value = false
               }
             } as IFormBack)
           } else {
-            btnBack.callBack && btnBack.callBack()
+            btnBack?.callBack && btnBack.callBack()
           }
         })
       } catch (error) {
@@ -707,7 +717,7 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
         }
         // 报错了这里恢复
         innerIsLoading.value = false
-        btnBack.callBack && btnBack.callBack()
+        btnBack?.callBack && btnBack.callBack()
       } finally {
         if (!props.isDialog) {
           innerIsLoading.value = false
@@ -724,7 +734,7 @@ const handleSubmitForm = async (btnBack: IBtnBack) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('表单校验失败: ', error)
-    btnBack.callBack && btnBack.callBack()
+    btnBack?.callBack && btnBack.callBack()
   }
 }
 
@@ -862,6 +872,13 @@ page {
         box-sizing: border-box;
         padding: 0 40rpx;
         border-bottom: 1px solid #f8f8f8;
+
+        .forms-item-labe-line {
+          .form-weight-label {
+            font-size: 14px;
+            color: #999;
+          }
+        }
 
         .form-weight-label {
           font-size: 14px;
