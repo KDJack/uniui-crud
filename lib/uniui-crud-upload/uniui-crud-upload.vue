@@ -19,7 +19,7 @@ export default {
 <script lang="ts" setup>
 import { ref, watch, useAttrs, computed, onBeforeMount, nextTick } from 'vue'
 import { getAttrs } from '../uniui-crud-form/mixins'
-import { throttle } from 'lodash'
+import { cloneDeep } from 'lodash'
 
 const props = defineProps<{
   modelValue?: Array<any>
@@ -91,8 +91,8 @@ function getIndex(path: string): number {
 async function unload(file: any) {
   // eslint-disable-next-line no-console
   const tempFilePaths = file.tempFilePaths
+  const tempList = cloneDeep(currentValue.value || [])
   // 判断是否需要获取token
-  let key = ''
   let token = ''
   if (props.desc?.token) {
     if (typeof props.desc.token === 'function') {
@@ -113,6 +113,7 @@ async function unload(file: any) {
       // 传参： 接口url，  method类型， params参数
       return new Promise((resolve, reject) => {
         const index = getIndex(fileData)
+        debugger
         const uploadTask = uni.uploadFile({
           //图片上传地址
           url: props.desc?.uploadUrl || '',
@@ -127,7 +128,7 @@ async function unload(file: any) {
           },
           //请求成功，后台返回自己服务器上的图片地址
           success: (res) => {
-            let data = JSON.parse(res.data)
+            const data = JSON.parse(res.data)
             if (!data.furl) {
               // 移除
               if (filePickerRef.value?.files?.length) {
@@ -135,17 +136,13 @@ async function unload(file: any) {
                 // filePickerRef.value.files[index].status = 'error'
               }
               nextTick(() => {
-                uni.showToast({
-                  title: '上传附件失败，请稍候再试！',
-                  duration: 3000,
-                  icon: 'none'
-                })
+                uni.showToast({ title: '上传附件失败，请稍候再试！', duration: 3000, icon: 'none' })
               })
               reject()
             } else {
               data.url = data.furl
               data.extname = data.suffix
-              currentValue.value.push(data.furl)
+              tempList.push(data)
               if (filePickerRef.value?.files?.length) {
                 filePickerRef.value.files[index].status = 'success'
               }
@@ -153,11 +150,7 @@ async function unload(file: any) {
             }
           },
           fail: () => {
-            uni.showToast({
-              title: '上传附件失败，请稍候再试！',
-              duration: 3000,
-              icon: 'none'
-            })
+            uni.showToast({ title: '上传附件失败，请稍候再试！', duration: 3000, icon: 'none' })
             reject()
             return
           }
@@ -170,33 +163,9 @@ async function unload(file: any) {
       })
     })
   )
-  handelChange()
-}
-
-/**
- * 处理改变
- */
-const handelChange = throttle(() => {
-  const tempList = [] as any[]
-  // 这里遍历
-  let isHave = false
-  currentValue.value.map((item: any) => {
-    isHave = false
-    if (props.modelValue && props.modelValue?.length) {
-      for (let i = 0; i < props.modelValue.length; i++) {
-        if (props.modelValue[i].name === item.name) {
-          tempList.push(props.modelValue[i])
-          isHave = true
-          break
-        }
-      }
-    }
-    if (!isHave) {
-      tempList.push(item)
-    }
-  })
   emits('update:modelValue', tempList)
-}, 500)
+  emits('validateThis')
+}
 
 onBeforeMount(async () => {
   attrs.value = await getAttrs(props, { fileMediatype: 'image', mode: 'grid', fileExtname: 'png,jpg', limit: 9, ...useAttrs(), ...props.desc })
@@ -208,29 +177,30 @@ onBeforeMount(async () => {
 watch(
   () => props.modelValue,
   (data: Array<any> | undefined) => {
-    if (data && data.map((item) => item.name).join(',') !== currentValue.value.map((item: any) => item.name).join(',')) {
-      if (data?.length) {
-        data.map((item) => {
-          item.url = item.url || item.shareUrl
-          item.extname = item.extname || item.suffix?.replace('.', '')
-        })
-      }
-      currentValue.value = data
-    }
+    // if (data && data.map((item) => item.name).join(',') !== currentValue.value.map((item: any) => item.name).join(',')) {
+    //   if (data?.length) {
+    //     data.map((item) => {
+    //       item.url = item.url || item.furl || item.shareUrl
+    //       item.extname = item.extname || item.suffix?.replace('.', '')
+    //     })
+    //   }
+    // }
+    currentValue.value = data
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 )
 
-watch(
-  () => currentValue.value,
-  (newData: Array<any>, oldData: Array<any>) => {
-    if (newData.map((item) => item.name).join(',') !== oldData.map((item) => item.name).join(',')) {
-      handelChange()
-      emits('validateThis')
-    }
-  },
-  { deep: true }
-)
+// watch(
+//   () => currentValue.value,
+//   (newData: Array<any>, oldData: Array<any>) => {
+//     console.log('newData: ', newData)
+//     if (newData.map((item) => item.name || item).join(',') !== oldData.map((item) => item.name || item).join(',')) {
+//       handelChange()
+//       emits('validateThis')
+//     }
+//   },
+//   { deep: true }
+// )
 </script>
 <style lang="scss" scoped>
 .uniui-crud-upload {

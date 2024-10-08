@@ -332,6 +332,7 @@ const computedRules = computed(() => {
             case 'tselect':
             case 'linkuser':
             case 'radio':
+            case 'selectTag':
               rules = 'select'
               break
           }

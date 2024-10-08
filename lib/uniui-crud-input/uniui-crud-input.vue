@@ -28,7 +28,8 @@ emits('update:modelValue', currentValue)
 /**
  * 处理change
  */
-function handelChange() {
+function handelChange(data: any) {
+  currentValue.value = data
   if (props.desc?.on?.change) {
     props.desc.on.change(props.formData, currentValue.value)
   }
