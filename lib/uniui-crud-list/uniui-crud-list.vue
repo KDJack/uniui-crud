@@ -40,7 +40,7 @@ interface IListConfigLocal {
   queryMap?: any
   // 列表头部
   headerConf: ILIHeaderConfig
-  placeholderImg:any
+  placeholderImg: any
 }
 
 const emits = defineEmits(['tabChange', 'itemClick'])
@@ -246,7 +246,7 @@ defineExpose({ reload })
         position: absolute;
         width: 48rpx;
         height: 8rpx;
-        background: #007957;
+        // background: #007957;
         left: 50%;
         bottom: -8rpx;
         transform: translateX(-50%);
@@ -344,16 +344,16 @@ defineExpose({ reload })
       margin-bottom: 0;
     }
   }
-  .placeholder-image{
+  .placeholder-image {
     width: 100%;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    .placeholder-text{
-      font-size:28rpx;
-      color:#999999;
+    .placeholder-text {
+      font-size: 28rpx;
+      color: #999999;
       text-align: center;
       margin-top: 24rpx;
     }

@@ -3,7 +3,7 @@
     <uni-file-picker ref="filePickerRef" v-model="currentValue" v-bind="attrs" :imageStyles="imageStyles" @select="handelSelect">
       <template v-if="desc.isCamer">
         <view class="upload-bg-panel" />
-        <uni-icons style="position: relative; z-index: 1" type="camera-filled" size="30" color="#007957" />
+        <uni-icons style="position: relative; z-index: 1" type="camera-filled" size="30" />
       </template>
       <uni-icons v-else type="plusempty" size="24" color="#999999" />
     </uni-file-picker>

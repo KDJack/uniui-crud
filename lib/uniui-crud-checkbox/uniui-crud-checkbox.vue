@@ -47,7 +47,7 @@ onBeforeMount(async () => {
   attrs.value = await getAttrs(props, {
     multiple: props.multiple || props.desc?.multiple || false,
     map: { text: 'label', value: 'value' },
-    selectedColor: '#007957',
+    // selectedColor: '#007957',
     ...useAttrs()
   })
   isInit.value = true
