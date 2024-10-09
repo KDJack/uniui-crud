@@ -113,7 +113,6 @@ async function unload(file: any) {
       // 传参： 接口url，  method类型， params参数
       return new Promise((resolve, reject) => {
         const index = getIndex(fileData)
-        debugger
         const uploadTask = uni.uploadFile({
           //图片上传地址
           url: props.desc?.uploadUrl || '',
@@ -143,7 +142,7 @@ async function unload(file: any) {
               data.url = data.furl
               data.extname = data.suffix
               tempList.push(data)
-              if (filePickerRef.value?.files?.length) {
+              if (filePickerRef.value?.files?.length && filePickerRef.value.files[index]) {
                 filePickerRef.value.files[index].status = 'success'
               }
               resolve(true)
@@ -156,7 +155,7 @@ async function unload(file: any) {
           }
         })
         uploadTask.onProgressUpdate(({ progress }) => {
-          if (filePickerRef.value?.files?.length) {
+          if (filePickerRef.value?.files?.length & filePickerRef.value.files[index]) {
             filePickerRef.value.files[index].progress = progress
           }
         })

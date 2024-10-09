@@ -43,7 +43,7 @@ const props = defineProps<{
   formData: { [key: string]: any }
 }>()
 
-const emits = defineEmits(['update:modelValue', 'validateThis'])
+const emits = defineEmits(['update:modelValue'])
 const attrs = ref({} as any)
 const options = reactive([] as any[])
 const isInit = ref(false)
@@ -87,7 +87,7 @@ function handelOpenDialog() {
 }
 
 function handelSubmit() {
-  currentValue.value = [...showValue.value]
+  currentValue.value = [...(showValue.value || [])]
   if (currentValue.value.length) {
     showText.value = `已选${currentValue.value.length}个`
   } else {
@@ -127,18 +127,19 @@ watch(
 watch(
   () => props.modelValue,
   (data: any) => {
-    currentValue.value = data
-    showValue.value = data
+    // currentValue.value = data
+    showValue.value = data || []
+    handelSubmit()
   },
   { immediate: true }
 )
 
-watch(
-  () => currentValue.value,
-  () => {
-    emits('validateThis')
-  }
-)
+// watch(
+//   () => currentValue.value,
+//   () => {
+//     emits('validateThis')
+//   }
+// )
 </script>
 <style lang="scss" scoped>
 .uniui-crud-selectTag {
