@@ -53,7 +53,6 @@ const currentValue = ref(props.modelValue || [])
 const showValue = ref(props.modelValue || [])
 
 const showText = ref('')
-emits('update:modelValue', currentValue)
 
 const hasActive = computed(() => (item: any) => {
   return showValue.value?.includes(item.value)
@@ -93,6 +92,7 @@ function handelSubmit() {
   } else {
     showText.value = ''
   }
+  emits('update:modelValue', currentValue.value)
   handelClose()
 }
 
@@ -127,9 +127,16 @@ watch(
 watch(
   () => props.modelValue,
   (data: any) => {
+    // if (JSON.stringify(showValue.value) !== JSON.stringify(data)) {
     // currentValue.value = data
     showValue.value = data || []
-    handelSubmit()
+    currentValue.value = [...(data || [])]
+    if (currentValue.value.length) {
+      showText.value = `已选${currentValue.value.length}个`
+    } else {
+      showText.value = ''
+    }
+    // }
   },
   { immediate: true }
 )
