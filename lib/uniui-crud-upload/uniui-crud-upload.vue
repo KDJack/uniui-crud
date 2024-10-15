@@ -167,7 +167,7 @@ async function unload(file: any) {
 }
 
 onBeforeMount(async () => {
-  attrs.value = await getAttrs(props, { fileMediatype: 'image', mode: 'grid', fileExtname: 'png,jpg', limit: 9, ...useAttrs(), ...props.desc })
+  attrs.value = await getAttrs(props, { fileMediatype: 'image', mode: 'grid', fileExtname: 'png,jpg,jpeg,gif', limit: 9, ...useAttrs(), ...props.desc })
   if (!props.desc?.uploadUrl) {
     console.warn('请配置uploadUrl后方可使用上传组件！！！')
   }
