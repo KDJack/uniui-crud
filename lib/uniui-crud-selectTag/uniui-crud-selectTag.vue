@@ -12,11 +12,13 @@
             <uni-icons type="closeempty" color="#fff" size="24" @click.stop="handelClose"></uni-icons>
           </view>
         </view>
-        <view class="tag-list">
-          <template v-for="(item, i) in options" :key="i">
-            <view class="tag-item" :class="{ active: hasActive(item) }" @click.stop="handelCheck(item)">{{ item.label || item.l }}</view>
-          </template>
-        </view>
+        <scroll-view class="tag-list-panel" scroll-y="true">
+          <view class="tag-list">
+            <template v-for="(item, i) in options" :key="i">
+              <view class="tag-item" :class="{ active: hasActive(item) }" @click.stop="handelCheck(item)">{{ item.label || item.l }}</view>
+            </template>
+          </view>
+        </scroll-view>
         <view class="bottom-btn" @click.stop="handelSubmit">确认选择</view>
       </view>
     </uni-popup>
@@ -182,7 +184,7 @@ watch(
   .select-tag-panel {
     width: 100vw;
     min-height: 50vh;
-    max-height: 70vh;
+    max-height: 90vh;
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
     border-radius: 40rpx 40rpx 0 0;
@@ -210,31 +212,37 @@ watch(
     .top-query {
       width: 100%;
     }
-    .tag-list {
-      height: 100%;
-      flex: 1;
-      overflow-y: scroll;
+    .tag-list-panel {
       width: 100%;
-      display: grid;
-      grid-gap: 10rpx;
-      grid-template-columns: 1fr 1fr 1fr;
+      height: 700rpx;
+      display: flex;
+      flex-direction: column;
       padding: 20rpx 0;
       margin: 20rpx 0;
       box-sizing: border-box;
-      .tag-item {
-        // height: fit-content;
-        text-align: center;
-        padding: 24rpx 16rpx;
-        border-radius: 8rpx;
-        background: #ffffff;
-        box-sizing: border-box;
-        color: #43444d;
-        font-weight: 600;
-        font-size: 28rpx;
-      }
-      .active {
-        background: #ff7a43;
-        color: #ffffff;
+      .tag-list {
+        height: 100%;
+        flex: 1;
+        width: 100%;
+        display: grid;
+        grid-gap: 10rpx;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .tag-item {
+          // height: fit-content;
+          text-align: center;
+          padding: 24rpx 16rpx;
+          border-radius: 8rpx;
+          background: #ffffff;
+          box-sizing: border-box;
+          color: #43444d;
+          font-weight: 600;
+          font-size: 28rpx;
+        }
+        .active {
+          background: #ff7a43;
+          color: #ffffff;
+        }
       }
     }
     .bottom-btn {
