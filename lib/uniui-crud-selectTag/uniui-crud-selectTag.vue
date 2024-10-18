@@ -214,20 +214,19 @@ watch(
     }
     .tag-list-panel {
       width: 100%;
-      height: 700rpx;
+      height: 500rpx;
       display: flex;
       flex-direction: column;
       padding: 20rpx 0;
       margin: 20rpx 0;
       box-sizing: border-box;
       .tag-list {
-        height: 100%;
-        flex: 1;
+        // height: 100%;
+        // flex: 1;
         width: 100%;
         display: grid;
         grid-gap: 10rpx;
         grid-template-columns: 1fr 1fr 1fr;
-
         .tag-item {
           // height: fit-content;
           text-align: center;
