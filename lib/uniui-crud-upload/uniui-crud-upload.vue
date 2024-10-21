@@ -127,6 +127,7 @@ async function unload(file: any) {
           },
           //请求成功，后台返回自己服务器上的图片地址
           success: (res) => {
+            console.log('upload result: ', res)
             const data = JSON.parse(res.data)
             if (!data.furl) {
               // 移除
@@ -135,7 +136,7 @@ async function unload(file: any) {
                 // filePickerRef.value.files[index].status = 'error'
               }
               nextTick(() => {
-                uni.showToast({ title: '上传附件失败，请稍候再试！', duration: 3000, icon: 'none' })
+                uni.showToast({ title: '上传附件失败，请稍候再试~！', duration: 3000, icon: 'none' })
               })
               reject()
             } else {
@@ -148,7 +149,8 @@ async function unload(file: any) {
               resolve(true)
             }
           },
-          fail: () => {
+          fail: (e) => {
+            console.log('upload fail result: ', e)
             uni.showToast({ title: '上传附件失败，请稍候再试！', duration: 3000, icon: 'none' })
             reject()
             return
