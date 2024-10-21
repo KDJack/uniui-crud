@@ -17,7 +17,12 @@
 import { ref, watch, reactive } from 'vue'
 
 const props = defineProps<{
-  modelValue?: string | null
+  modelValue?: {
+    name: string
+    address: string
+    latitude: number
+    longitude: number
+  } | null
   field: string
   desc: { [key: string]: any }
   formData: { [key: string]: any }
@@ -25,13 +30,7 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:modelValue', 'change', 'validateThis'])
 
-const mapLocation = reactive({ latitude: 30.6598, longitude: 104.065072 })
-const currentValue = ref<{
-  name: string
-  address: string
-  latitude: number
-  longitude: number
-} | null>()
+const currentValue = ref(props.modelValue || null)
 emits('update:modelValue', currentValue)
 
 /**
@@ -41,9 +40,9 @@ function handelOpenMap() {
   // 这里首先获取用户地址
   uni.getLocation({
     type: 'gcj02',
+    latitude: props.modelValue?.latitude,
+    longitude: props.modelValue?.longitude,
     success({ latitude, longitude }) {
-      mapLocation.latitude = latitude
-      mapLocation.longitude = longitude
       // eslint-disable-next-line no-console
       // console.log('成功获取到用户经纬度: ', latitude, longitude)
       uni.chooseLocation({
@@ -52,6 +51,9 @@ function handelOpenMap() {
           // console.log('拉取chooseLocation成功: ', name, address, latitude, longitude)
           currentValue.value = { name, address, latitude, longitude }
           emits('change', currentValue.value)
+          if (props.desc?.on?.change) {
+            props.desc.on.change(props.formData, currentValue.value)
+          }
         },
         fail: (e: any) => {
           // eslint-disable-next-line no-console
