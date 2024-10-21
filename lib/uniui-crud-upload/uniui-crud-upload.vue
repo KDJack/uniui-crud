@@ -105,6 +105,8 @@ async function unload(file: any) {
     }
   }
 
+  const key = `${new Date().getTime()}`
+
   // 循环调用
   await Promise.all(
     tempFilePaths.map((fileData: any, i: number) => {
@@ -121,7 +123,7 @@ async function unload(file: any) {
           name: 'file',
           formData: {
             token,
-            key: `${new Date().getTime()}`,
+            key: `${key}_${i}`,
             //HTTP 请求中其他额外的 form data
             filename: file.tempFiles[i]?.name || ''
           },
